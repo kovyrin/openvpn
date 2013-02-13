@@ -31,6 +31,19 @@ default["openvpn"]["signing_ca_cert"] = "#{node["openvpn"]["key_dir"]}/ca.crt"
 default["openvpn"]["routes"] = []
 default["openvpn"]["script_security"] = 1
 
+# User and group that will be used to run openvpn
+case node["platform_family"]
+when "rhel", "fedora"
+  default["openvpn"]["user"] = "nobody"
+  default["openvpn"]["group"] = "nobody"
+when "debian"
+  default["openvpn"]["user"] = "nobody"
+  default["openvpn"]["group"] = "nogroup"
+else
+  default["openvpn"]["user"] = "nobody"
+  default["openvpn"]["group"] = "nogroup"
+end
+
 # Used by helper library to generate certificates/keys
 default["openvpn"]["key"]["ca_expire"] = 3650
 default["openvpn"]["key"]["expire"]    = 3650
